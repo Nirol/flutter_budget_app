@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 
-class TransactionForm extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+// IMPORTANT: we need to convert this widget to stateful in order for the form data to be saved during its fillment
+// reason is Flutter internal re rendering and managements deletes the data in a Stateless widget.
+// With a stateful widget, the data is kept sepreatly from the wdiget, and the form data is not deleted !
+
+class TransactionForm extends StatefulWidget {
   final Function(String, double) newTxHandler;
+
+  TransactionForm(this.newTxHandler);
+
+  @override
+  State<TransactionForm> createState() => _TransactionFormState();
+}
+
+class _TransactionFormState extends State<TransactionForm> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
 
   void submitTransaction() {
     final title = titleController.text;
@@ -12,10 +25,14 @@ class TransactionForm extends StatelessWidget {
     if (title.isEmpty || amount <= 0) {
       return;
     }
-    newTxHandler(title, amount);
+
+    // use a field received with the widget constructuor outside the state
+    widget.newTxHandler(title, amount);
+
+    // pop the new transaction form off the screen after new tx
+    Navigator.of(context).pop();
   }
 
-  TransactionForm(this.newTxHandler);
   @override
   Widget build(BuildContext context) {
     return Card(
