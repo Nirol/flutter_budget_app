@@ -27,7 +27,7 @@ class Transactions extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Colors.purple,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
@@ -39,7 +39,7 @@ class Transactions extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: Colors.blue,
+                          color: Theme.of(context).primaryColorDark,
                         ),
                       ),
                       Text(
