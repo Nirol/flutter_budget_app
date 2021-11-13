@@ -5,6 +5,16 @@ class TransactionForm extends StatelessWidget {
   final amountController = TextEditingController();
   final Function(String, double) newTxHandler;
 
+  void submitTransaction() {
+    final title = titleController.text;
+    final amount = double.parse(amountController.text);
+
+    if (title.isEmpty || amount <= 0) {
+      return;
+    }
+    newTxHandler(title, amount);
+  }
+
   TransactionForm(this.newTxHandler);
   @override
   Widget build(BuildContext context) {
@@ -17,16 +27,16 @@ class TransactionForm extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
               controller: titleController,
+              onSubmitted: (_) => submitTransaction(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitTransaction(),
             ),
             TextButton(
-              onPressed: () {
-                newTxHandler(
-                    titleController.text, double.parse(amountController.text));
-              },
+              onPressed: submitTransaction,
               child: Text('Add Transaction'),
               style: TextButton.styleFrom(
                 primary: Colors.purple,
